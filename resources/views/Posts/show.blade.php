@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+<div class="container">
 <div class="row mt-3">
    <div class="col-sm-8 offset-md-2">
 		<div class="card">
@@ -24,9 +25,28 @@
 			        <a href="{{'/posts/'. $post->id .'/destroy'}}" class="btn btn-danger float-left ">Delete</a>
 			        @endif
 			        @endauth
+			        <hr>
+			        <br>
+			        @foreach($comments as $comment)
+				        <a href="/visit/{{$comment->user_id}}">{{$comment->name}}</a>
+				        <p>{{$comment->comment}}</p>
+				        <hr>
+			        @endforeach
+			        <div class="panel-body">
+				        <form class="form-horizontal" 
+				           action="/comment/{{$post->id}}" 
+				           method="POST">
+					   		{{ csrf_field() }}
+					   		<input type="text" name="comment" placeholder="Enter your comment..."
+					   		style="width: 400px; height: 40px;">
+					   		<button class="btn btn-warning">
+					   		Comment</button>
+					   	</form>
+				   	</div>
 		      </div>
 		</div>
-		<br>
+	 <br>
    </div>
+</div>
 </div>
 @endsection

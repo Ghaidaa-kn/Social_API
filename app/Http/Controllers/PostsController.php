@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Comment;
+use App\User;
+use App\Friend;
 use DB;
 use Illuminate\Http\Request;
 
@@ -12,7 +15,7 @@ class PostsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['index' ,'show']);
+        $this->middleware('auth');//->except(['index' ,'show']);
     }
 
     public function index(){
@@ -25,9 +28,16 @@ class PostsController extends Controller
     	return view('Posts.index' , compact('posts' , 'count'));
     }
 
+
     public function show($id){
     	$post = Post::find($id);
-    	return view('Posts.show' , compact('post'));
+
+        $comments = DB::table('comments')->where('post_id' , $id)
+        ->join('users' , 'comments.user_id' , '=' , 'users.id')
+        ->select('users.*' , 'comments.*')
+        ->get();
+
+    	return view('Posts.show' , compact('post' , 'comments'));
     }
 
     public function create(){
@@ -90,8 +100,25 @@ class PostsController extends Controller
 
     public function destroy($id){
     	$post = Post::find($id);
+        Comment::where('post_id' , $id)->delete();
     	$post->delete();
     	return redirect('/posts')->with('status' , 'The post was deleted');
+    }
+
+    public function createComment(Request $req , $id){
+        $comment = new Comment;
+        $comment->user_id = auth()->user()->id;
+        $comment->post_id = Post::where('id' , $id)
+          ->first()->id;
+        $comment->comment = $req->comment;
+        $comment->save();
+        return redirect('/posts/'. $id);
+    }
+
+    function testcomment($id){
+        $post = Post::find($id);
+        $comments = $post->comments;
+        return view('test' , compact('post' , 'comments'));
     }
 
 }

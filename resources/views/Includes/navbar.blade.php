@@ -12,11 +12,16 @@
  
         <!-- <a class="navbar-brand" href="#">BestBlog</a> -->
         
-            <a class="nav-link active" aria-current="page" href="{{url('/')}}">Home</a>
-            <a class="nav-link" href="{{url('/posts')}}">Posts</a>
+            <a class="nav-link active navbar-brand" aria-current="page" href="{{url('/')}}">Home</a>
+            <a class="nav-link navbar-brand" href="{{url('/posts')}}">Posts</a>
+            <a class="nav-link navbar-brand" href="{{url('/users')}}">Users</a>
+            <a class="nav-link navbar-brand" href="{{url('/getFriends')}}">Friends</a>
+            <a class="nav-link navbar-brand" href="{{url('/getRequests')}}">Requests</a>
             @auth
-            <a class="btn btn-primary" href="{{url('/posts/create')}}">Create post</a>
+            <a style="height: 40px;" class="btn btn-primary" href="{{url('/posts/create')}}">Create post</a>
             @endauth
+
+
 
 
 
@@ -29,7 +34,7 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 

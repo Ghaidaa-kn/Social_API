@@ -2,12 +2,7 @@
 
 @section('content')
 <div class="container">
-
-<div class="card mb-3" style="max-width: 20rem;">
-			<div class=" card-header bg-info text-white">
-				<h3 class="card-text"> All Posts : {{$count}}   </h3>
-			</div>
-</div>
+  <h1>All {{$user->name}} Posts</h1>
 </div>
 <hr>
 
